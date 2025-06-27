@@ -204,8 +204,6 @@ header {
     z-index: 345;
 
     &.gametime {
-        background: url('../images/bg2.jpg') no-repeat center top;
-        background-size: contain;
         z-index: 650;
     }
 
@@ -248,18 +246,29 @@ header {
         z-index: 1900;
         transition: all 0.3s ease-in-out;
 
-        .button {
-            background: none transparent;
+        &.answers {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button {    
+            background-color: #000000;
+            color: white;
             padding: 0.25rem 0.5rem;
             margin: 0 1rem -3.5rem;
             height: auto;
             min-height: 10rem;
-            border: none;
-            max-width: 25%;
+            border: 2px solid white;
             text-align: center;
             border-radius: 1rem;
             cursor: pointer;
-            transition: all 0.1s linear;
+            transition: all 0.15s linear;
+            word-wrap: break-word;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            flex-basis: 0;
 
             &:after {
                 opacity: 0;
@@ -268,14 +277,13 @@ header {
 
             img {
                 text-align: center;
-                width: 200px;
+                width: 48px;
                 margin: 0 auto;
-                max-width: auto;
-                max-height: auto;
+                filter: invert(42%) sepia(93%) saturate(1352%) hue-rotate(87deg) brightness(119%) contrast(119%);
             }
 
             &:hover {
-                background: rgba(255, 255, 255, 0.25);
+                background: #333;
             }
 
             &:active {
@@ -352,29 +360,10 @@ header {
             opacity: 1;
         }
         nav {
-            bottom: 1.2vw !important;
+            bottom: 6vw !important;
         }
         .cat-bubble {
             display: block !important;
-        }
-    }
-
-    &.waiting {
-        progress,
-        .tag.game-time {
-            top: -12vw;
-
-        }
-        nav {
-            bottom: -50%;
-        }
-
-        .cat-bubble {
-            width: 1rem;
-            height: 1rem;
-            top: 0;
-            left: 0;
-            display: none !important;
         }
     }
 
@@ -754,8 +743,8 @@ header {
     display: none;
     position: absolute;
     z-index: 1850;
-    top: 30%;
-    left: 35%;
+    top: 25%;
+    left: 40%;
     transition: all 0.3s ease;
     animation: bubbleFood 5s linear infinite;
     z-index: 1111;
@@ -789,6 +778,47 @@ header {
         position: relative;
         background: transparent;
         background-size: cover;
+    }
+
+
+    &.beef:after {
+        background: url('/assets/beef.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.chicken:after {
+        background: url('/assets/chicken.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.fish:after {
+        background: url('/assets/fish.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.veg:after {
+        background: url('/assets/veggies.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.model:after {
+        background: url('/assets/brain.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.tools:after {
+        background: url('/assets/tool.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.prompt:after {
+        background: url('/assets/prompt.svg') no-repeat 50% 50%;
+        background-size: contain;
+    }
+
+    &.compose:after {
+        background: url('/assets/file-code.svg') no-repeat 50% 50%;
+        background-size: contain;
     }
 }
 
@@ -894,25 +924,6 @@ header {
 // }
 
 // game is activated!
-.beef > .cat-bubble:after {
-    background: url('../images/beef.svg') no-repeat 50% 50%;
-    background-size: contain;
-}
-
-.chicken > .cat-bubble:after {
-    background: url('../images/chicken.svg') no-repeat 50% 50%;
-    background-size: contain;
-}
-
-.fish > .cat-bubble:after {
-    background: url('../images/fish.svg') no-repeat 50% 50%;
-    background-size: contain;
-}
-
-.veg > .cat-bubble:after {
-    background: url('../images/veggies.svg') no-repeat 50% 50%;
-    background-size: contain;
-}
 
 footer {
     position: absolute;
@@ -997,7 +1008,7 @@ footer {
             bottom: 0%;
         }
 
-        &.waiting > nav {
+        > nav.waiting {
             bottom: -50vw;
         }
     }
@@ -1061,7 +1072,7 @@ footer {
             }
         }
 
-        &.waiting > nav {
+        > nav.waiting {
             bottom: -100vw;
         }
     }
@@ -1104,7 +1115,7 @@ footer {
             bottom: -1%;
         }
 
-        &.waiting > nav {
+        nav.waiting {
             bottom: -50vw;
         }
 

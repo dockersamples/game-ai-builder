@@ -33,11 +33,8 @@ export function FinishScreen() {
 
     return (
         <Screen>
-            <h2>Game over!</h2>
+            <h2>You got {stats.score} points! ({ Math.round(stats.score / stats.total * 100) }% accuracy)</h2>
 
-            <p>
-                { Math.round(stats.score / stats.total * 100) }% accuracy
-            </p>
             <p></p>
             <div>
                 { response ? (

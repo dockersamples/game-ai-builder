@@ -1,42 +1,40 @@
-import { useEffect } from "react";
-import { useGameState } from "../../GameState";
+import { useEffect, useState } from "react";
 import { Screen } from "./Screen";
-import { ClickResultDisplay } from "./ClickResultDisplay";
+import { useGameState } from "../../GameState";
 
 export function PlayScreen() {
-    const { handleClick, items, currentItemIndex } = useGameState();
-
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (["1", "2", "3"].includes(e.key)) {
-                handleClick(Number(e.key) - 1);
-            }
-        };
-        
-        window.addEventListener("keydown", handleKeyDown);
-        return () => {
-            window.removeEventListener("keydown", handleKeyDown);
-        };
-    })
+    const { stats } = useGameState();
 
     return (
         <Screen>
-            <ClickResultDisplay />
-            <div>
-                <h2>Click the item!</h2>
-                <p>Current item: {items[currentItemIndex].prompt}</p>
-            </div>
-            <div>
-                {items.map((item, index) => (
-                    <button 
-                        key={index} 
-                        className="button" 
-                        onClick={() => handleClick(index)}
-                    >
-                        ({ index + 1 }) {item.action}
-                    </button>
-                ))}
+            <div id="results">
+                { stats.clickStream.map((result, index) => (
+                    <ClickResult key={index} result={result} />
+                )) }
             </div>
         </Screen>
     )
+}
+
+function ClickResult({ result }) {
+    const [hiding, setHiding] = useState(false);
+    const [hide, setHide] = useState(false);
+    
+    useEffect(() => {
+        const t = setTimeout(() => setHiding(true), 200);
+        return () => clearTimeout(t);
+    }, [setHiding]);
+    
+    useEffect(() => {
+        const t = setTimeout(() => setHide(true), 500);
+        return () => clearTimeout(t);
+    }, [setHide]);
+
+    if (hide) return null;
+
+    return (
+        <span className={`click-result ${hiding ? " hiding" : ""}`}>
+            { result > 0 ? "✅" : (result < 0 ? "❌" : "") }
+        </span>
+    );
 }

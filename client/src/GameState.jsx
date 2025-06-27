@@ -2,19 +2,28 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 
 const GAME_SPEED_SCALE = 1;
 const GAME_LENGTH = 30;
+const CHANGE_RATE_PER_CLICK = 0.2; // 20% chance to change item on correct click
 
 const ITEMS = [
     { 
-        prompt: "Secrets",
-        action: "Scan and block"
+        id: "model",
+        action: "Choose a model",
+        icon: "/assets/brain.svg",
     },
     {
-        prompt: "Tools have too much access",
-        action: "Run in a container",
+        id: "tools",
+        action: "Add MCP servers",
+        icon: "/assets/tool.svg",
     },
     {
-        prompt: "Tool sprawl",
-        action: "Use Compose",
+        id: "prompt",
+        action: "Craft a prompt",
+        icon: "/assets/prompt.svg",
+    },
+    {
+        id: "compose",
+        action: "Write a Compose file",
+        icon: "/assets/file-code.svg",
     }
 ];
 
@@ -24,7 +33,7 @@ const DEFAULT_VALUE = {
         score: 0,
         total: 0,
         clickStream: [], /* -1 for wrong click, +1 for correct click */
-        items: ITEMS.map(item => ({ prompt: item.prompt, totalClicks: 0, score: 0 })),
+        items: ITEMS.map(item => ({ action: item.action, totalClicks: 0, score: 0 })),
     },
     timer: 30,
     items: ITEMS,
@@ -71,12 +80,11 @@ export function GameStateProvider({ children }) {
 
     const resetGame = useCallback(() => {
         setState("START");
-        setLastClickResult(0);
         setStats({
             total: 0,
             score: 0,
             clickStream: [],
-            items: ITEMS.map(item => ({ prompt: item.prompt, total: 0, score: 0, }))
+            items: ITEMS.map(item => ({ action: item.action, total: 0, score: 0, }))
         })
     }, [setState, setStats]);
 
@@ -96,7 +104,7 @@ export function GameStateProvider({ children }) {
                 return newStats;
             });
 
-            if (currentIndex === itemIndex) {
+            if (currentIndex === itemIndex && Math.random() < CHANGE_RATE_PER_CLICK) {
                 return pickNewItemIndex(ITEMS);
             }
             return currentIndex;

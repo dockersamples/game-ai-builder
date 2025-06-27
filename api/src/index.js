@@ -30,16 +30,16 @@ app.get('/api/high-scores', (req, res) => {
 app.post("/api/game-response", async (req, res) => {
     const {stats, type} = req.body;
 
+    
+
     const systemPrompt = type === "roast" ? ROAST_PROMPT : PRAISE_PROMPT;
    
-const userStats = `
-The user had a total score of ${stats.score} points out of ${stats.total} clicks, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%. The previous current high score was 72 points.
-
-Click stats based on category:
-
-- Preventing tool sprawl - (correct: ${stats.items[2].score}, incorrect: ${stats.items[2].totalClicks - stats.items[2].score})
-- Protecting from unwanted filesystem access - (correct: ${stats.items[1].score}, incorrect: ${stats.items[1].totalClicks - stats.items[1].score})
-- Protecting and securing secrets and credentials - (correct: ${stats.items[0].score}, incorrect: ${stats.items[0].totalClicks - stats.items[0].score})`;
+    const userStats = [
+        `The user had a total score of ${stats.score} points out of ${stats.total} clicks, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
+        `The previous high score is 72 points.`,
+        `Click stats based on category:`,
+        stats.items.map(item => `- ${item.action} - (correct: ${item.score}, incorrect: ${item.totalClicks - item.score})`).join("\n"),
+    ].join("\n\n")
 
     try {
         res.setHeader('Content-Type', 'text/event-stream');
