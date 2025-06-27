@@ -494,6 +494,10 @@ header {
                 margin-top: 1rem;
                 font-family: Azeret Mono, monospace;
 
+                &.alt {
+                    background: $light2;
+                }
+
                 &.is-small {
                     width: auto;
                     margin: 0 !important;

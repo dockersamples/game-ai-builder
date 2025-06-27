@@ -30,8 +30,6 @@ app.get('/api/high-scores', (req, res) => {
 app.post("/api/game-response", async (req, res) => {
     const {stats, type} = req.body;
 
-    
-
     const systemPrompt = type === "roast" ? ROAST_PROMPT : PRAISE_PROMPT;
    
     const userStats = [

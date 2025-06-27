@@ -6,8 +6,17 @@ import { Screen } from "./Screen";
 export function FinishScreen() {
     const { stats, resetGame } = useGameState();
     const [response, setResponse] = useState("");
+    const [generatingResponse, setGeneratingResponse] = useState(false);
+    const [beenRoasted, setBeenRoasted] = useState(false);
+    const [beenPraised, setBeenPraised] = useState(false);
 
     const getResponse = useCallback(async (roast = false) => {
+        if (roast) setBeenRoasted(true);
+        else setBeenPraised(true);
+        
+        setResponse("");
+        setGeneratingResponse(true);
+
         const response = await fetch(
             '/api/game-response',
             {
@@ -29,6 +38,8 @@ export function FinishScreen() {
             console.log('Received: ', value)
             setResponse(prev => prev + value);
         }
+
+        setGeneratingResponse(false);
     }, []);
 
     return (
@@ -37,18 +48,30 @@ export function FinishScreen() {
 
             <p></p>
             <div>
-                { response ? (
+                { generatingResponse && !response && (
+                    <div className="loading">
+                        <p>Generating response...</p>
+                        <div className="spinner"></div>
+                    </div>
+                )}
+
+                { response && (
                     <div className="response">
                         <ReactMarkdown>{ response }</ReactMarkdown>
                     </div>
-                ) : (
-                    <>
-                        <button className="button" onClick={() => getResponse(true)}>Roast me</button>
-                        <button className="button" onClick={() => getResponse(false)}>Praise me</button>
-                    </>
                 )}
+
+                <div>
+                    { !beenRoasted && (
+                        <button className="button alt" onClick={() => getResponse(true)}>Roast me</button>
+                    )}
+                    { !beenPraised && (
+                        <button className="button alt" onClick={() => getResponse(false)}>Praise me</button>
+                    )}
+
+                    <button className="button" onClick={resetGame}>Restart</button>
+                </div>
             </div>
-            <button className="button" onClick={resetGame}>Restart</button>
         </Screen>
     )
 }
