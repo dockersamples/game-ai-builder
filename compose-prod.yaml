@@ -1,18 +1,16 @@
 services:
-
-  model:
-    provider:
-      type: model
-      options:
-        model: ai/gemma3:4B-F16
-
   app:
     image: michaelirwin244/ai-game
     ports:
       - 3000:3000
-    environment:
-      OPENAI_BASE_URL: http://model-runner.docker.internal/engines/v1
-      OPENAI_MODEL: ai/gemma3:4B-F16
+    models:
+      gemma3:
+        endpoint_var: OPENAI_BASE_URL
+        model_var: OPENAI_MODEL
 
 volumes:
   game-state:
+
+models:
+  gemma3:
+    model: ai/gemma3:4B-F16
