@@ -3,14 +3,17 @@ import { Screen } from "./Screen";
 import { useGameState } from "../../GameState";
 
 export function PlayScreen() {
-    const { stats } = useGameState();
+    const { stats, hasMadeFirstPoint } = useGameState();
 
     return (
-        <Screen>
+        <Screen align="end">
             <div id="results">
                 { stats.clickStream.map((result, index) => (
                     <ClickResult key={index} result={result} />
                 )) }
+            </div>
+            <div id="instructions" className={hasMadeFirstPoint ? "hidden" : ""}>
+                Click on the button with the matching icon
             </div>
         </Screen>
     )

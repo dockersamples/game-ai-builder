@@ -39,10 +39,10 @@ const DEFAULT_VALUE = {
     items: ITEMS,
     currentItemIndex: 0,
     highScores: [],
+    hasMadeFirstPoint: false,
     startGame: () => {},
     resetGame: () => {},
     handleClick: () => {},
-
 };
 
 const GameStateContext = createContext(DEFAULT_VALUE);
@@ -58,6 +58,7 @@ export function GameStateProvider({ children }) {
     const [highScores, setHighScores] = useState(DEFAULT_VALUE.highScores);
     const [state, setState] = useState("START");
     const [currentItemIndex, setCurrentItemIndex] = useState(0);
+    const [hasMadeFirstPoint, setHasMadeFirstPoint] = useState(false);
 
     useEffect(() => {
         fetch("/api/high-scores")
@@ -74,12 +75,12 @@ export function GameStateProvider({ children }) {
 
     const startGame = useCallback(() => {
         setState("PLAY");
-        setTimer(GAME_LENGTH);
         setCurrentItemIndex(pickNewItemIndex(ITEMS));
     }, [setState, setTimer]);
 
     const resetGame = useCallback(() => {
         setState("START");
+        setHasMadeFirstPoint(false);
         setStats({
             total: 0,
             score: 0,
@@ -87,6 +88,13 @@ export function GameStateProvider({ children }) {
             items: ITEMS.map(item => ({ action: item.action, total: 0, score: 0, }))
         })
     }, [setState, setStats]);
+
+    useEffect(() => {
+        if (stats.total === 1) {
+            setHasMadeFirstPoint(true);
+            setTimer(GAME_LENGTH);
+        }
+    }, [stats, setHasMadeFirstPoint]);
 
     const handleClick = useCallback((itemIndex) => {
 
@@ -109,10 +117,10 @@ export function GameStateProvider({ children }) {
             }
             return currentIndex;
         });
-    }, [setStats, setCurrentItemIndex]);
+    }, [setStats, setCurrentItemIndex, setHasMadeFirstPoint]);
 
     useEffect(() => {
-        if (state === "START") return;
+        if (state === "START" || !hasMadeFirstPoint) return;
         
         if (timer <= 0) {
             setState("FINISH");
@@ -121,7 +129,7 @@ export function GameStateProvider({ children }) {
 
         const t = setTimeout(() => setTimer(t => t - 1), 1000 * GAME_SPEED_SCALE);
         return () => clearTimeout(t);
-    }, [state, timer, setState]);
+    }, [state, timer, setState, hasMadeFirstPoint]);
 
     if (!bootstrapped) {
         return <h2 style={{marginTop: "5rem"}}>Starting game...</h2>
@@ -135,6 +143,7 @@ export function GameStateProvider({ children }) {
             state, 
             items: DEFAULT_VALUE.items,
             currentItemIndex,
+            hasMadeFirstPoint,
             
             startGame, 
             resetGame,

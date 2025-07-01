@@ -522,14 +522,14 @@ header {
         }
     }
 
-    .intro {
+    .box {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        
-        img {
-            max-height: 200px;
+
+        &.align-end {
+            justify-content: end;
         }
     }
 
@@ -1195,3 +1195,13 @@ footer {
         margin: 0 auto;
     }
   }
+
+#instructions {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+
+    &.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
