@@ -12,19 +12,35 @@ const app = express();
 app.use(express.json());
 app.use(express.static('static'));
 
+const HIGH_SCORES = [
+    { name: "ICE", score: 53 },
+    { name: "HMH", score: 50 },
+    { name: "HMH", score: 47 },
+    { name: "HMH", score: 37 },
+    { name: "rzn", score: 34 },
+    { name: "THO", score: 28 },
+    { name: "HMH", score: 27 },
+    { name: "MSI", score: 27 },
+    { name: "rzn", score: 26 },
+    { name: "mes", score: 25 },
+];
+
 app.get('/api/high-scores', (req, res) => {
-    res.json([
-        { name: "ICE", score: 153 },
-        { name: "HMH", score: 150 },
-        { name: "HMH", score: 147 },
-        { name: "HMH", score: 137 },
-        { name: "rzn", score: 134 },
-        { name: "THO", score: 128 },
-        { name: "HMH", score: 127 },
-        { name: "MSI", score: 127 },
-        { name: "rzn", score: 126 },
-        { name: "mes", score: 125 },
-    ]);
+    res.json(HIGH_SCORES);
+});
+
+app.post("/api/high-scores", (req, res) => {
+    const { name, score } = req.body;
+
+    const scoreIndex = HIGH_SCORES.findIndex(s => s.score < score);
+    if (scoreIndex < 10) {
+        HIGH_SCORES.splice(scoreIndex, 0, { name, score });
+        if (HIGH_SCORES.length > 10) {
+            HIGH_SCORES.pop();
+        }
+        return res.status(201).json({ message: "High score added successfully!" });
+    }
+    return res.status(400).json({ message: "Score is not high enough to be added." });
 });
 
 app.post("/api/game-response", async (req, res) => {

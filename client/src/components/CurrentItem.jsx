@@ -11,7 +11,7 @@ export function CurrentItem() {
 
     return (
         <div 
-            class={`cat-bubble ${selectedItem.id}`} 
+            className={`cat-bubble ${selectedItem.id}`} 
             style={state === "PLAY" || 1 === 1 ? { display: "block" } : {}}
         ></div>
     );

@@ -12,7 +12,7 @@ const ITEMS = [
     },
     {
         id: "tools",
-        action: "Add MCP servers",
+        action: "Add tools",
         icon: "/assets/tool.svg",
     },
     {
@@ -22,7 +22,7 @@ const ITEMS = [
     },
     {
         id: "compose",
-        action: "Write a Compose file",
+        action: "Package with Compose",
         icon: "/assets/file-code.svg",
     }
 ];
@@ -43,6 +43,7 @@ const DEFAULT_VALUE = {
     startGame: () => {},
     resetGame: () => {},
     handleClick: () => {},
+    submitHighScore: (name, score) => {},
 };
 
 const GameStateContext = createContext(DEFAULT_VALUE);
@@ -131,6 +132,16 @@ export function GameStateProvider({ children }) {
         return () => clearTimeout(t);
     }, [state, timer, setState, hasMadeFirstPoint]);
 
+    const submitHighScore = useCallback(async (name, score) => {
+        await fetch("/api/high-scores", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, score }),
+        });
+    }, []);
+
     if (!bootstrapped) {
         return <h2 style={{marginTop: "5rem"}}>Starting game...</h2>
     }
@@ -148,6 +159,7 @@ export function GameStateProvider({ children }) {
             startGame, 
             resetGame,
             handleClick,
+            submitHighScore,
         }}>
             { children }
         </GameStateContext.Provider>

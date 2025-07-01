@@ -1,46 +1,20 @@
-import { useCallback, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { useGameState } from "../../GameState";
 import { Screen } from "./Screen";
+import { FinishOptions } from "./FinishOptions";
+import { useState } from "react";
 
 export function FinishScreen() {
-    const { stats, resetGame } = useGameState();
-    const [response, setResponse] = useState("");
-    const [generatingResponse, setGeneratingResponse] = useState(false);
-    const [beenRoasted, setBeenRoasted] = useState(false);
-    const [beenPraised, setBeenPraised] = useState(false);
+    const { stats, highScores, submitHighScore } = useGameState();
+    const [evaluatedHighScore, setEvaluatedHighScore] = useState(false);
+    const [name, setName] = useState("");
 
-    const getResponse = useCallback(async (roast = false) => {
-        if (roast) setBeenRoasted(true);
-        else setBeenPraised(true);
-        
-        setResponse("");
-        setGeneratingResponse(true);
+    const gotHighScore = stats.score > 0 && highScores.some(score => score.score < stats.score);
 
-        const response = await fetch(
-            '/api/game-response',
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ stats, type: (roast) ? "roast": "praise" }),
-            }
-        );
-
-        const reader = response.body
-            .pipeThrough(new TextDecoderStream())
-            .getReader();
-
-        while (true) {
-            const { value, done } = await reader.read()
-            if (done) break
-            console.log('Received: ', value)
-            setResponse(prev => prev + value);
-        }
-
-        setGeneratingResponse(false);
-    }, []);
+    const handleHighScoreSubmission = async (e) => {
+        e.preventDefault();
+        submitHighScore(name, stats.score);
+        setEvaluatedHighScore(true);
+    };
 
     return (
         <Screen>
@@ -51,31 +25,37 @@ export function FinishScreen() {
             )}
 
             <p></p>
-            <div>
-                { generatingResponse && !response && (
-                    <div className="loading">
-                        <p>Generating response...</p>
-                        <div className="spinner"></div>
-                    </div>
-                )}
-
-                { response && (
-                    <div className="response">
-                        <ReactMarkdown>{ response }</ReactMarkdown>
-                    </div>
-                )}
-
+            { gotHighScore && !evaluatedHighScore ? (
                 <div>
-                    { !beenRoasted && (
-                        <button className="button alt" onClick={() => getResponse(true)}>Roast me</button>
-                    )}
-                    { !beenPraised && (
-                        <button className="button alt" onClick={() => getResponse(false)}>Praise me</button>
-                    )}
-
-                    <button className="button" onClick={resetGame}>Restart</button>
+                    <h3>Congratulations!</h3>
+                    <p>You got a high score!</p>
+                    <form onSubmit={handleHighScoreSubmission}>
+                        <input 
+                            type="text" 
+                            id="yourName"
+                            className="input"
+                            placeholder="Your initials" 
+                            maxLength={3}
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            autoComplete="off"
+                            data-1p-ignore="true"
+                        />
+                        <button 
+                            className="button is-small" 
+                            id="submitName"
+                            disabled={!name.trim()}
+                            type="submit"
+                        >Submit</button>
+                        <button 
+                            className="button is-small"
+                            onClick={() => setEvaluatedHighScore(true)}
+                        >Skip</button>
+                    </form>
                 </div>
-            </div>
+            ) : (
+                <FinishOptions />
+            )}
         </Screen>
     )
 }
