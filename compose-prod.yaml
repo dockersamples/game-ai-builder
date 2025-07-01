@@ -1,8 +1,11 @@
 services:
   app:
     image: michaelirwin244/ai-game
+    pull_policy: always
     ports:
       - 3000:3000
+    volumes:
+      - game-state:/data
     models:
       gemma3:
         endpoint_var: OPENAI_BASE_URL

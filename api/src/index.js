@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from "fs";
 import { OpenAI } from 'openai';
 import { ROAST_PROMPT } from './prompts.mjs';
 import { PRAISE_PROMPT } from './prompts.mjs';
@@ -12,32 +13,33 @@ const app = express();
 app.use(express.json());
 app.use(express.static('static'));
 
-const HIGH_SCORES = [
-    { name: "ABC", score: 33 },
-    { name: "ABC", score: 30 },
-    { name: "ABC", score: 27 },
-    { name: "ABC", score: 27 },
-    { name: "ABC", score: 24 },
-    { name: "ABC", score: 18 },
-    { name: "ABC", score: 17 },
-    { name: "ABC", score: 17 },
-    { name: "ABC", score: 6 },
-    { name: "ABC", score: 5 },
-];
+const getHighScores = () => {
+    if (!fs.existsSync('/data/high-scores.json')) {
+        fs.writeFileSync('/data/high-scores.json', JSON.stringify([]));
+    }
+    return JSON.parse(fs.readFileSync('/data/high-scores.json', 'utf-8'));
+}
+
+const saveHighScores = (highScores) => {
+    fs.writeFileSync('/data/high-scores.json', JSON.stringify(highScores, null, 2));
+}
 
 app.get('/api/high-scores', (req, res) => {
-    res.json(HIGH_SCORES);
+    res.json(getHighScores());
 });
 
 app.post("/api/high-scores", (req, res) => {
     const { name, score } = req.body;
 
-    const scoreIndex = HIGH_SCORES.findIndex(s => s.score < score);
+    const highScores = getHighScores();
+
+    const scoreIndex = highScores.findIndex(s => s.score < score);
     if (scoreIndex < 10) {
-        HIGH_SCORES.splice(scoreIndex, 0, { name, score });
-        if (HIGH_SCORES.length > 10) {
-            HIGH_SCORES.pop();
+        highScores.splice(scoreIndex, 0, { name, score });
+        if (highScores.length > 10) {
+            highScores.pop();
         }
+        saveHighScores(highScores);
         return res.status(201).json({ message: "High score added successfully!" });
     }
     return res.status(400).json({ message: "Score is not high enough to be added." });

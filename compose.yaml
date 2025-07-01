@@ -24,7 +24,7 @@ services:
         endpoint_var: OPENAI_BASE_URL
         model_var: OPENAI_MODEL
     volumes:
-      - game-state:/etc/game-state
+      - game-state:/data
     develop:
       watch:
         - path: ./api
