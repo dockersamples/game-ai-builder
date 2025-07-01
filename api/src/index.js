@@ -34,7 +34,7 @@ app.post("/api/game-response", async (req, res) => {
    
     const userStats = [
         `The user had a total score of ${stats.score} points out of ${stats.total} clicks, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
-        `The previous high score is 72 points.`,
+        // `The previous high score is 72 points.`,
         `Click stats based on category:`,
         stats.items.map(item => `- ${item.action} - (correct: ${item.score}, incorrect: ${item.totalClicks - item.score})`).join("\n"),
     ].join("\n\n")

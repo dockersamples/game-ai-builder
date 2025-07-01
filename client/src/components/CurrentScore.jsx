@@ -1,7 +1,10 @@
 import { useGameState } from "../GameState";
 
 export function CurrentScore() {
-    const { stats, timer } = useGameState();
+    const { state, stats, timer } = useGameState();
+
+    if (state === "START")
+        return null;
 
     return (
         <section className="score"> 

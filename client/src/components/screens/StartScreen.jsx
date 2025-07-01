@@ -8,9 +8,13 @@ export function StartScreen() {
         <Screen>
             <h2>Whalecome to the AI Builder!</h2>
 
-            <p>Your job is to build a GenAI app, which means collecting all of the components needed.</p>
+            <p>Your job is to build a GenAI app. But, you need a few things in your stack.</p>
 
-            <p>Each correct answer gives you a point. Go as quickly as you can!</p>
+            <p>You will be presented with an icon representing a stack component.</p>
+            
+            <p>Your job is to click the matching button to add it to your stack.</p>
+
+            <p>Each correct click gives you a point... so click quickly!</p>
 
             <button 
                 className="button"

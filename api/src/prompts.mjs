@@ -7,6 +7,10 @@ The specific items in the stack include:
 - Prompts - crafting the right prompts to get the best results from the model for the task at hand
 - Docker Compose - using Docker Compose to ensure the application runs consistently across different environments
 
+The user has 30 seconds to click on the matching button. Therefore, scores in the range of 60-100 points are considered average, scores above 100-120 points are good, and 125+ are exceptional.
+
+Since the button changes randomly, it is expected to have missed clicks. Scores at 75% are good and over 85% are exceptional.
+
 The intent of the game is to both be fun and to educate the user about the GenAI stack and Docker Compose. The game is designed to be played in a short time frame, with a focus on quick decision-making and accuracy. After each click, there's a random chance that the item will change, keeping the user on their toes.
 
 In your response, call out, in some way, how Docker helps with the GenAI stack and provides consistency and reliability in the development and deployment of applications.
