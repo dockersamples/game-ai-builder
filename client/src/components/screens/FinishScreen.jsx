@@ -44,7 +44,11 @@ export function FinishScreen() {
 
     return (
         <Screen>
-            <h2>You got {stats.score} points! ({ Math.round(stats.score / stats.total * 100) }% accuracy)</h2>
+            { stats.total === 0 ? (
+                <h2>It looks like you got zero points!</h2>
+            ) : (
+                <h2>You got {stats.score} points! ({ Math.round(stats.score / stats.total * 100) }% accuracy)</h2>
+            )}
 
             <p></p>
             <div>
