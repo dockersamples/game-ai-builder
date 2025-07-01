@@ -58,13 +58,13 @@ export function FinishOptions() {
 
             <div>
                 { !beenRoasted && (
-                    <button className="button alt" onClick={() => getResponse(true)}>Roast me</button>
+                    <button className="button alt is-small" onClick={() => getResponse(true)}>Roast me</button>
                 )}
                 { !beenPraised && (
-                    <button className="button alt" onClick={() => getResponse(false)}>Praise me</button>
+                    <button className="button alt is-small" onClick={() => getResponse(false)}>Praise me</button>
                 )}
 
-                <button className="button" onClick={resetGame}>Restart</button>
+                <button className="button is-small" onClick={resetGame}>Restart</button>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const GAME_SPEED_SCALE = 1;
-const GAME_LENGTH = 30;
+const GAME_LENGTH = 10;
 const CHANGE_RATE_PER_CLICK = 0.2; // 20% chance to change item on correct click
 
 const ITEMS = [
@@ -60,6 +60,7 @@ export function GameStateProvider({ children }) {
     const [state, setState] = useState("START");
     const [currentItemIndex, setCurrentItemIndex] = useState(0);
     const [hasMadeFirstPoint, setHasMadeFirstPoint] = useState(false);
+    const [scoreRefreshCount, setScoreRefreshCount] = useState(0);
 
     useEffect(() => {
         fetch("/api/high-scores")
@@ -72,7 +73,7 @@ export function GameStateProvider({ children }) {
                 console.error("Error fetching high scores:", error);
                 alert("Failed to bootstrap. Please try again later.");
             });
-    }, []);
+    }, [scoreRefreshCount]);
 
     const startGame = useCallback(() => {
         setState("PLAY");
@@ -140,7 +141,8 @@ export function GameStateProvider({ children }) {
             },
             body: JSON.stringify({ name, score }),
         });
-    }, []);
+        setScoreRefreshCount(count => count + 1);
+    }, [setScoreRefreshCount]);
 
     if (!bootstrapped) {
         return <h2 style={{marginTop: "5rem"}}>Starting game...</h2>

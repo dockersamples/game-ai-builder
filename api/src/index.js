@@ -13,16 +13,16 @@ app.use(express.json());
 app.use(express.static('static'));
 
 const HIGH_SCORES = [
-    { name: "ICE", score: 53 },
-    { name: "HMH", score: 50 },
-    { name: "HMH", score: 47 },
-    { name: "HMH", score: 37 },
-    { name: "rzn", score: 34 },
-    { name: "THO", score: 28 },
-    { name: "HMH", score: 27 },
-    { name: "MSI", score: 27 },
-    { name: "rzn", score: 26 },
-    { name: "mes", score: 25 },
+    { name: "ABC", score: 33 },
+    { name: "ABC", score: 30 },
+    { name: "ABC", score: 27 },
+    { name: "ABC", score: 27 },
+    { name: "ABC", score: 24 },
+    { name: "ABC", score: 18 },
+    { name: "ABC", score: 17 },
+    { name: "ABC", score: 17 },
+    { name: "ABC", score: 6 },
+    { name: "ABC", score: 5 },
 ];
 
 app.get('/api/high-scores', (req, res) => {
@@ -49,8 +49,8 @@ app.post("/api/game-response", async (req, res) => {
     const systemPrompt = type === "roast" ? ROAST_PROMPT : PRAISE_PROMPT;
    
     const userStats = [
-        `The user had a total score of ${stats.score} points out of ${stats.total} clicks, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
-        // `The previous high score is 72 points.`,
+        `The user had a total score of ${stats.score} points. They clicked a total of ${stats.total} times, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
+        `The high scores range from ${HIGH_SCORES[0].score} to ${HIGH_SCORES[HIGH_SCORES.length - 1].score} points.`,
         `Click stats based on category:`,
         stats.items.map(item => `- ${item.action} - (correct: ${item.score}, incorrect: ${item.totalClicks - item.score})`).join("\n"),
     ].join("\n\n")

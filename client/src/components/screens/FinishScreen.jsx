@@ -2,6 +2,7 @@ import { useGameState } from "../../GameState";
 import { Screen } from "./Screen";
 import { FinishOptions } from "./FinishOptions";
 import { useState } from "react";
+import { Scoreboard } from "../Scoreboard";
 
 export function FinishScreen() {
     const { stats, highScores, submitHighScore } = useGameState();
@@ -17,14 +18,13 @@ export function FinishScreen() {
     };
 
     return (
-        <Screen>
+        <Screen showScoreboard>
             { stats.total === 0 ? (
                 <h2>It looks like you got zero points!</h2>
             ) : (
-                <h2>You got {stats.score} points! ({ Math.round(stats.score / stats.total * 100) }% accuracy)</h2>
+                <h2>{stats.score} points! ({ Math.round(stats.score / stats.total * 100) }% accuracy)</h2>
             )}
 
-            <p></p>
             { gotHighScore && !evaluatedHighScore ? (
                 <div>
                     <h3>Congratulations!</h3>

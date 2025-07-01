@@ -13,7 +13,8 @@ export function PlayScreen() {
                 )) }
             </div>
             <div id="instructions" className={hasMadeFirstPoint ? "hidden" : ""}>
-                Click on the button with the matching icon
+                Click on the box below with the matching icon.
+                <br />The timer will start after your first click.
             </div>
         </Screen>
     )

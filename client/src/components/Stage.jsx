@@ -25,7 +25,6 @@ export function Stage() {
     return (
         <section id="whiskerStage" className={`fullscreen stage ${gameStateClass}`}>
             <ScreenContents />
-            <Scoreboard />
             <GameAnswers />
             <CurrentItem />
         </section>

@@ -418,7 +418,7 @@ header {
         z-index: 1330 !important;
         position: absolute;
         left: 11.5%;
-        top: 9rem;
+        top: 8rem;
         right: 10.5%;
         bottom: 33%;
         min-height: 344px;
@@ -462,7 +462,7 @@ header {
             background-color: transparent;
             padding: 0 3rem;
             width: 100%;
-            min-height: 20rem;
+            min-height: 100%;
             color: white;
 
             h1 {
@@ -1203,9 +1203,41 @@ footer {
 #instructions {
     opacity: 1;
     transition: opacity 0.3s ease-in-out;
+    margin-bottom: 1rem;
 
     &.hidden {
         opacity: 0;
         pointer-events: none;
+    }
+}
+
+#finish-screen {
+    display: flex;
+    width: 100%;
+    flex: 2 1 auto;
+    justify-items: center;
+    align-items: center;
+}
+
+#finish-content {
+    flex: 1 1 auto;
+}
+
+#highScores {
+    flex: 0 0 12rem;
+    padding: 0 2rem 0 1rem;
+    border-left: 1px solid $green;
+   
+    dl {
+        dt, dd {
+            width: 45%;
+            display: inline-block;
+            font-size: 1.25rem;
+            color: white;
+            margin: 0 0;
+            vertical-align: middle;
+            min-height: 3.33vh;
+            text-transform: uppercase;
+        }
     }
 }
