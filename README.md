@@ -20,7 +20,7 @@ It also includes:
 Run the following command:
 
 ```
-docker compose -f oci://michaelirwin244/ai-game:compose up
+docker compose -f oci://dockersamples/ai-builder-game:compose up
 ```
 
 The app uses the `ai/gemma3:4B-Q4_0` model, which is ~2.2GB in size. If you don't have it yet, Compose will download it for you.
