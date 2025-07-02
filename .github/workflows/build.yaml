@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.DOCKERHUB_NAMESPACE }}/ai-builder-game
+          images: ${{ secrets.DOCKERHUB_USERNAME }}/ai-builder-game
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
 
