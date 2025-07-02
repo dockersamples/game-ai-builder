@@ -39,4 +39,4 @@ volumes:
 
 models:
   gemma3:
-    model: ai/gemma3:4B-F16
+    model: ai/gemma3:4B-Q4_0
