@@ -54,7 +54,7 @@ app.post("/api/game-response", async (req, res) => {
 
     const userStats = [
         `The user had a total score of ${stats.score} points. They clicked a total of ${stats.total} times, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
-        `The high scores range from ${highScores[0].score} to ${highScores[highScores.length - 1].score} points.`,
+        highScores.length > 0 ? `The high scores range from ${highScores[0].score} to ${highScores[highScores.length - 1].score} points.` : "There are no high scores yet.",
         `Click stats based on category:`,
         stats.items.map(item => `- ${item.action} - (correct: ${item.score}, incorrect: ${item.totalClicks - item.score})`).join("\n"),
     ].join("\n\n")
