@@ -49,10 +49,12 @@ app.post("/api/game-response", async (req, res) => {
     const {stats, type} = req.body;
 
     const systemPrompt = type === "roast" ? ROAST_PROMPT : PRAISE_PROMPT;
-   
+  
+    const highScores = getHighScores();
+
     const userStats = [
         `The user had a total score of ${stats.score} points. They clicked a total of ${stats.total} times, giving an accuracy of ${Math.floor(stats.score/stats.total * 100)}%`,
-        `The high scores range from ${HIGH_SCORES[0].score} to ${HIGH_SCORES[HIGH_SCORES.length - 1].score} points.`,
+        `The high scores range from ${highScores[0].score} to ${highScores[highScores.length - 1].score} points.`,
         `Click stats based on category:`,
         stats.items.map(item => `- ${item.action} - (correct: ${item.score}, incorrect: ${item.totalClicks - item.score})`).join("\n"),
     ].join("\n\n")

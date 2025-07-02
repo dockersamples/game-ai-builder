@@ -9,7 +9,7 @@ export function FinishScreen() {
     const [evaluatedHighScore, setEvaluatedHighScore] = useState(false);
     const [name, setName] = useState("");
 
-    const gotHighScore = stats.score > 0 && highScores.some(score => score.score < stats.score);
+    const gotHighScore = highScores.length === 0 || stats.score > 0 && highScores.some(score => score.score < stats.score);
 
     const handleHighScoreSubmission = async (e) => {
         e.preventDefault();

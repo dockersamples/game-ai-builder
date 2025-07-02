@@ -7,6 +7,11 @@ export function Scoreboard() {
     return (
         <div className="highscore" id="highScores"> 
             <h3>High Scores</h3>
+
+            { highScores.length === 0 && (
+                <p>No high scores yet!</p>
+            )}
+
             <dl id="highScoresList">
                 { highScores.map((score, index) => (
                     <Fragment key={index}>

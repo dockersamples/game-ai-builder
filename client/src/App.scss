@@ -1227,13 +1227,14 @@ footer {
     flex: 0 0 12rem;
     padding: 0 2rem 0 1rem;
     border-left: 1px solid $green;
+    min-height: 10rem;
+    color: white;
    
     dl {
         dt, dd {
             width: 45%;
             display: inline-block;
             font-size: 1.25rem;
-            color: white;
             margin: 0 0;
             vertical-align: middle;
             min-height: 3.33vh;
