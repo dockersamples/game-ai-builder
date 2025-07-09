@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 const GAME_SPEED_SCALE = 1;
-const GAME_LENGTH = 30;
+const GAME_LENGTH = 20;
 const CHANGE_RATE_PER_CLICK = 0.2; // 20% chance to change item on correct click
 
 const ITEMS = [
