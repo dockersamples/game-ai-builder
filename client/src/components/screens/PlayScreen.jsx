@@ -6,7 +6,7 @@ export function PlayScreen() {
     const { stats, hasMadeFirstPoint } = useGameState();
 
     return (
-        <Screen align="end">
+        <Screen align="end" showScoreboard>
             <div id="results">
                 { stats.clickStream.map((result, index) => (
                     <ClickResult key={index} result={result} />
